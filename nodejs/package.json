@@ -1,0 +1,12 @@
+{
+  "name": "fibobenchmark",
+  "version": "1.0.0",
+  "description": "Fibonacci Benchmark in NodeJS and C++",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["node", "c++", "benchmark", "java"],
+  "author": "Fido <fidencio.garrido@gmail.com>",
+  "license": "MIT"
+}

@@ -1,0 +1,4 @@
+node_modules
+java/*.class
+nodejs/build
+.DS_Store
