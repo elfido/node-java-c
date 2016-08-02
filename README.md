@@ -1,8 +1,9 @@
-# Java, NodeJS and (NodeJS & C++) benchmark
+# Java, Go, NodeJS and (NodeJS & C++) benchmark
 ## Requires
 * Java
 * NodeJS
 * NodeGyp
+* Go
 
 ```bash
 npm install -g node-gyp
@@ -18,10 +19,17 @@ node-gyp configure
 node-gyp build
 ```
 
+## Compiling in Go (from the go folder)
+```bash
+go build fibo.go
+```
+
 ## Execute
 ```bash
 cd java
 java Fibo
 cd ../nodejs
 node index
+cd ../go
+./fibo
 ```
