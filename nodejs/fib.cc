@@ -1,25 +1,9 @@
 #include <node.h>
 
-// function fib(x){
-//   if (x===1){
-//     return x;
-//   } else{
-//     return x * fib(x-1);
-//   }
-// }
-
 using namespace v8;
 
 namespace demo{
   using v8::String;
-
-  // void fib(const x){
-  //   if (x==1){
-  //     return x;
-  //   } else{
-  //     return x * fib(x-1);
-  //   }
-  // }
 
   double fib(const double x){
       if(x==1){
