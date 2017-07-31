@@ -6,7 +6,7 @@ using namespace v8;
 namespace demo{
   using v8::String;
   Persistent<Number> persist;
-  const unsigned long int factor = 60000;
+  const unsigned long int factor = 5 * 60000;
 
   double roundTo(const unsigned long int x){
       return (x / factor) * factor;
