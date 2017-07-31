@@ -12,7 +12,7 @@ function round(start, end){
 }
 
 function roundc(start, end){
-    return cround.round(start, end);
+    return [cround.round(start), cround.round(end)];
 }
 
 function native(start, end){

@@ -6,28 +6,22 @@ using namespace v8;
 namespace demo{
   using v8::String;
   Persistent<Number> persist;
+  const unsigned long int factor = 60000;
 
-  double roundTo(const double x, const int factor){
-      double result = (std::floor(x / factor)) * factor;
-      return result;
+  double roundTo(const unsigned long int x){
+      return (x / factor) * factor;
   }
 
   void round(const FunctionCallbackInfo<Value>& args){
     Isolate* isolate = args.GetIsolate();
-    if (args.Length()<2){
+    if (args.Length()<1){
       isolate->ThrowException(Exception::TypeError(
         String::NewFromUtf8(isolate, "Wrong number of arguments")
       ));
     }
-    double start = args[0]->NumberValue();
-    double end = args[1]->NumberValue();
-    int factor = Handle<Number>::New(isolate, persist)->NumberValue();
-    Local<Array> dates = Array::New(isolate);
-    Local<Number> s = Number::New(isolate, roundTo(start, factor));
-    Local<Number> e = Number::New(isolate, roundTo(end, factor));
-    dates->Set(0, s );
-    dates->Set(1, e );
-    args.GetReturnValue().Set( dates );
+    const unsigned long start = args[0]->NumberValue();
+    const double x = (start / factor) * factor;
+    args.GetReturnValue().Set( x );
   }
 
   void setFactor(const FunctionCallbackInfo<Value>& args){
