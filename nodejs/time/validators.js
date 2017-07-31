@@ -1,5 +1,6 @@
 const Validators = {
 	unit: 5,
+	factor: 0,
 	roundTo(value, factor){
 		let x = Math.round(value / factor) * factor;
 		if (x>=60){
@@ -19,8 +20,15 @@ const Validators = {
 		d.setMinutes( minutes );
 		return d.getTime();
 	},
+	roundTime2(t){
+		const r = (Math.floor(t / Validators.factor)) * Validators.factor;
+		return r;
+	},
 	roundTimes(s, e){
 		return [ Validators.roundTime(s), Validators.roundTime(e) ];
+	},
+	roundTimes2(s, e){
+		return [ Validators.roundTime2(s), Validators.roundTime2(e) ];
 	},
 	sToMinutes(v){
 		return Math.floor( v / 60 );
@@ -30,6 +38,7 @@ const Validators = {
 	},
 	init(unit){
 		Validators.unit = unit;
+		Validators.factor = unit * 60000;
 		console.log(`roundingTo=${unit}`);
 	}
 };

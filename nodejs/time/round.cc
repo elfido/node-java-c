@@ -1,57 +1,46 @@
 #include <node.h>
+#include <cmath>
 
 using namespace v8;
 
 namespace demo{
   using v8::String;
-
-  // roundTo(value, factor){
-	// 	let x = Math.round(value / factor) * factor;
-	// 	if (x>=60){
-	// 		x = 0;
-	// 	}
-	// 	return x;
-	// },
-
-  double round(const double value, const int factor){
-    return value;
-  }
+  Persistent<Number> persist;
 
   double roundTo(const double x, const int factor){
-      double result = 0;
-      result = x / 1000; // Seconds 128 / 60 = Math.floor(2.x) * 60
-      result = result / 60;
-      result = result * 60000;
+      double result = (std::floor(x / factor)) * factor;
       return result;
   }
 
   void round(const FunctionCallbackInfo<Value>& args){
     Isolate* isolate = args.GetIsolate();
-    if (args.Length()<3){
+    if (args.Length()<2){
       isolate->ThrowException(Exception::TypeError(
         String::NewFromUtf8(isolate, "Wrong number of arguments")
       ));
     }
-    if (!args[0]->IsNumber() || !args[1]->IsNumber() || !args[2]->IsNumber()){
-      isolate->ThrowException(Exception::TypeError(
-        String::NewFromUtf8(isolate, "All arguments must be numbers")
-      ));
-    }
     double start = args[0]->NumberValue();
     double end = args[1]->NumberValue();
-    double seed = args[2]->NumberValue();
-    double curatedStart = roundTo(start, seed);
-    double curatedEnd = roundTo(end, seed);
+    int factor = Handle<Number>::New(isolate, persist)->NumberValue();
     Local<Array> dates = Array::New(isolate);
-    Local<Number> s = Number::New(isolate, curatedStart);
-    Local<Number> e = Number::New(isolate, curatedEnd);
+    Local<Number> s = Number::New(isolate, roundTo(start, factor));
+    Local<Number> e = Number::New(isolate, roundTo(end, factor));
     dates->Set(0, s );
     dates->Set(1, e );
     args.GetReturnValue().Set( dates );
   }
 
+  void setFactor(const FunctionCallbackInfo<Value>& args){
+    Isolate* isolate = args.GetIsolate();
+    int f = args[0]->Int32Value() * 60000;
+    Handle<Number> factor = Int32::New(isolate, f);
+    persist.Reset(isolate, factor);
+    printf("Factor: %f\n", factor->NumberValue());
+  }
+
   void init(Local<Object> exports){
     NODE_SET_METHOD(exports, "round", round);
+    NODE_SET_METHOD(exports, "setFactor", setFactor);
   }
 
   NODE_MODULE(round, init)
